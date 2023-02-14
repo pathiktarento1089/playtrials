@@ -1,5 +1,6 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import data.EsClient;
 import elasticconfig.ElasticConfig;
 import org.apache.http.entity.ContentType;
@@ -24,35 +25,24 @@ public class EsController extends Controller {
     @Inject
     private EsClient esClient;
 
-    public Result connection() throws IOException {
-        System.out.println("connected to Elastic Search");
-        String json = "{\"id\":\"3\",\"name\":\"Jp\"}";
-        Request request = new Request("POST", "/employee/_doc/2");
-        request.setJsonEntity(json);
-        Response response = esClient.getRestClient().performRequest(request);
-        return ok(EntityUtils.toString(response.getEntity()));
-    }
-
-    public Result addInfo(int id, String name) {
-//            Map<String, Object>  jsonMap = new TreeMap<>();
-        Request request = new Request("POST", "/employee/_doc/2");
-//        request.setJsonEntity("{\"json\":\"text\"}");
-        request.setJsonEntity(String.valueOf(new StringEntity(String.valueOf(request), ContentType.APPLICATION_JSON)));
-        try {
-            Response response = esClient.getRestClient().performRequest(request);
-            return ok(EntityUtils.toString(response.getEntity()));
-            //client.index(request,null);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return internalServerError("Error indexing document");
-        }
-    }
-
-
-//    public Result addinfo(String indexName, String typeName, String id, JSONObject data)
-//    {
-//        IndexRequest request = new IndexRequest(indexName, typeName, id);
-//        request.source(data.toString(), XContentType.JSON);
-//        IndexResponse response = EsClient.index(request, RequestOptions.DEFAULT);
+//    public Result connection() throws IOException {
+//        System.out.println("connected to Elastic Search");
+//        String json = "{\"id\":\"3\",\"name\":\"Jp\"}";
+//        Request request = new Request("POST", "/employee/_doc/2");
+//        request.setJsonEntity(json);
+//        Response response = esClient.getRestClient().performRequest(request);
+//        return ok(EntityUtils.toString(response.getEntity()));
 //    }
+    public Result addInfo(Http.Request request) throws IOException {
+        JsonNode body = request.body().asJson();
+        String id = body.get("id").asText();
+        String name = body.get("name").asText();
+        Map<String, Object> jsonMap = new HashMap<>();
+        jsonMap.put("id", id);
+        jsonMap.put("name", name);
+        IndexRequest indexRequest = new IndexRequest("employee","_doc","4").source(jsonMap);
+        esClient.getRestClient().index(indexRequest,RequestOptions.DEFAULT);
+        return ok("Data successfully inserted");
+
+    }
 }

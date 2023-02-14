@@ -5,20 +5,20 @@ import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestHighLevelClient;
 
 public class EsClient {
-    private RestClient restClient;
+    private RestHighLevelClient restClient;
     public EsClient() {
-        restClient = RestClient.builder(
-                new HttpHost("localhost",9200,"http")
-        ).build();
+        restClient =new RestHighLevelClient(RestClient.builder(new HttpHost("localhost",9200,"http")));
+
     }
 
     public static IndexResponse index(IndexRequest request, RequestOptions aDefault) {
         return null;
     }
 
-    public RestClient getRestClient(){
+    public RestHighLevelClient getRestClient(){
         return restClient;
     }
 }
