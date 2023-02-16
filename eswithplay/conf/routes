@@ -3,12 +3,12 @@
 # ~~~~
 
 # An example controller showing a sample home page
-#GET     /                           controllers.HomeController.index()
+GET     /                           controllers.HomeController.index()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 #POST    /add/:name/:address/:section/:jsonData                       controllers.EsController.add(String : name,String :address,String : section,String :jsonData)
 #POST /elasticsearch/:index/:type/:id controllers.ElasticsearchController.sendData(index: String, type: String, id: String)
-#GET /connection        controllers.EsController.connection()
-#GET  /getData                       controllers.MysqlController.getData
-GET /addInfo                       controllers.EsController.addInfo(request : Request)
+#GET /connection                    controllers.EsController.connection()
+GET  /getData                       controllers.MysqlController.getData()
+#GET /addInfo                       controllers.EsController.addInfo(request : Request)
