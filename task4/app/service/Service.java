@@ -3,6 +3,8 @@ package service;
 import Configuration.MysqlConnection;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.elasticsearch.client.security.user.User;
+import play.api.data.Form;
 import play.libs.Json;
 import play.mvc.Http;
 
@@ -17,6 +19,7 @@ public class Service {
     public MysqlConnection mysqlConnection;
     HashMap<Integer, String> productMap = new HashMap<>();
     public void addProduct(Http.Request request) throws SQLException {
+        //Form<User> userForm = formFactory.form(User.class);
         JsonNode jsonNode = request.body().asJson();
         int id= jsonNode.get("id").asInt();
         String name= jsonNode.get("name").asText();

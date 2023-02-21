@@ -10,3 +10,6 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 POST  /addProductInfo               controllers.ProductController.addProductInfo(request : Request)
 GET  /getProductInfo/:id                controllers.ProductController.getProductInfo(id : Integer)
 GET  /getProductSpecById/:id                controllers.ProductController.getProductSpecById(id : Integer)
+POST /addData                        controllers.ProductEsController.addData(request : Request)
+GET  /getProductData/:id                controllers.ProductEsController.getProductData(id : String)
+GET  /getProductSpecData/:id                controllers.ProductEsController.getProductSpecData(id : String)
